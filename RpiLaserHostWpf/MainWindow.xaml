@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RpiLaserHostWpf"
         mc:Ignorable="d"
+        DataContext=""
         Title="Laser labirint host" Height="768" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
@@ -40,7 +41,7 @@
             <Label x:Name="LabelStop" Content="Stop" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Left" Width="170" Height="60" VerticalAlignment="Top"/>
         </Grid>
         <Grid Grid.Row="2">
-            <TextBox x:Name="Console" TextWrapping="Wrap" Text="" AcceptsReturn="True"/>
+            <TextBlock x:Name="Console" TextWrapping="Wrap" Text="{Binding Text}"/>
         </Grid>
     </Grid>
 </Window>
