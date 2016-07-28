@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using Newtonsoft.Json;
 
@@ -17,11 +18,11 @@ namespace RpiLaserHost
         /// </returns>
         public string Get()
         {
-            var top10 = dataService.GetTop10Results();
+            var top50Results = dataService.GetTop50Results();
 
             var top10ViewModel = new List<ResultVm>();
 
-            foreach (var item in top10)
+            foreach (var item in top50Results)
             {
                 var itemMinutes = item.Time/60000;
 
@@ -50,7 +51,7 @@ namespace RpiLaserHost
             Console.WriteLine($"Received data: {JsonConvert.SerializeObject(result)}");
             if (!string.IsNullOrWhiteSpace(result.Name))
             {
-                result.Crosses = dataService.GetHits();
+                result.Crosses = dataService.GetHits().Except(new List<int> {14,15});
                 dataService.StoreResult(result);
                 dataService.ClearHits();
             }

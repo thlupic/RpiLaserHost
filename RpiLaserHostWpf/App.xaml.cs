@@ -41,7 +41,8 @@ namespace RpiLaserHostWpf
             // Start OWIN host 
             using (WebApp.Start<Startup>(url: baseAddress))
             {
-                MainWindow =  ($"Web Server is running on: {baseAddress}");
+                var console = MainWindow.DataContext as String; 
+                console+= ($"Web Server is running on: {baseAddress}");
             }
         }
     }

@@ -42,13 +42,18 @@ namespace RpiLaserHost
 
                     Console.WriteLine($"Received message from start pin: {value.Id}");
 
-                    var sp = new SoundPlayer {SoundLocation = Environment.CurrentDirectory + "\\start.wav"};
+                    if (!dataService.CheckHit(startPin))
+                    {
+                        dataService.HandleHit(startPin);
 
-                    sp.Play();
+                        var sp = new SoundPlayer {SoundLocation = Environment.CurrentDirectory + "\\start.wav"};
 
-                    StopwatchHub.Send("reset");
+                        sp.Play();
 
-                    StopwatchHub.Send("start");
+                        StopwatchHub.Send("reset");
+
+                        StopwatchHub.Send("start");
+                    }
                 }
                 else if (value.Id == stopPin)
                 {
@@ -58,11 +63,16 @@ namespace RpiLaserHost
 
                     Console.WriteLine($"Received message from stop pin: {value.Id}");
 
-                    StopwatchHub.Send("stop");
+                    if (dataService.CheckHit(startPin))
+                    {
+                        dataService.HandleHit(stopPin);
 
-                    var sp = new SoundPlayer { SoundLocation = Environment.CurrentDirectory + "\\stop.wav" };
+                        StopwatchHub.Send("stop");
 
-                    sp.Play();
+                        var sp = new SoundPlayer {SoundLocation = Environment.CurrentDirectory + "\\stop.wav"};
+
+                        sp.Play();
+                    }
                 }
                 else if (value.Id < 40)
                 {

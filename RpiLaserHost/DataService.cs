@@ -18,9 +18,9 @@ namespace RpiLaserHost
 
         private readonly string hitsPath = $"{Environment.CurrentDirectory}\\{HitsFileName}";
 
-        public IEnumerable<Result> GetTop10Results()
+        public IEnumerable<Result> GetTop50Results()
         {
-            return GetAllResults().Take(10);
+            return GetAllResults().Take(50);
         }
 
         public void StoreResult(Result result)
@@ -59,6 +59,11 @@ namespace RpiLaserHost
             catch(Exception e)
             {
             }
+        }
+
+        public bool CheckHit(int hitId)
+        {
+            return GetHits().ToList().Contains(hitId);
         }
 
         public bool HandleHit(int hitId)
